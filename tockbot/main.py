@@ -52,7 +52,7 @@ class TockBot():
     experience = self.search_experiences()
     if not experience:
       return False
-    for time_slot in experience.find_elements(By.XPATH, "//div[@data-testid='booking-card-collapse']"):
+    for time_slot in experience.find_elements(By.XPATH, "//div[@data-testid='search-result-list-item']"):
       span = time_slot.find_element(By.CSS_SELECTOR, 'span.Consumer-resultsListItemTime').find_element(By.CSS_SELECTOR, 'span')
       date_time = datetime.strptime(span.text, FORMAT_IMP)
       if datetime.strptime(RESERVATION.start_time, FORMAT_IMP) <= date_time <= datetime.strptime(RESERVATION.end_time, FORMAT_IMP):
@@ -64,7 +64,7 @@ class TockBot():
 
   def search_experiences(self):
     experiences = self.driver.find_elements(By.CSS_SELECTOR, 'button.Consumer-reservationLink')
-    if RESERVATION.experience:
+    if RESERVATION.experience != '':
       for experience in experiences:
         h3 = experience.find_element(By.CSS_SELECTOR, 'h3.Consumer-reservationHeading')
         if h3.text.lower() == RESERVATION.experience.lower():
